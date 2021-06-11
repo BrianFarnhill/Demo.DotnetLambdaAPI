@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.3.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.8.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="AWSXRayRecorder.Core" Version="2.6.2" />
+    <PackageReference Include="AWSXRayRecorder.Handlers.AwsSdk" Version="2.7.2" />
+  </ItemGroup>
+
+  <Target Name="CopyXml" AfterTargets="AfterBuild">
+    <Copy SourceFiles="contosoBooks.xml" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="CopyXsd" AfterTargets="AfterBuild">
+    <Copy SourceFiles="contosoBooks.xsd" DestinationFolder="$(OutDir)" />
+  </Target>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <None Update="contosoBooks.xsd" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="contosoBooks.xml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
+
